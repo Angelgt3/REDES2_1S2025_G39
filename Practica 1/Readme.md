@@ -74,6 +74,7 @@ interface range FastEthernet0/1-3
 switchport mode trunk
 exit
 ```
+
 ## Cambio de Hostname
 ```bash
 enable
@@ -126,6 +127,47 @@ switchport port-security violation shutdown
 switchport port-security mac-address 0011.2233.4455
 exit
 ```
+
+## Configuración de protocolos de enrutamiento en routers Cisco
+
+Este archivo contiene un resumen de los comandos utilizados para configurar OSPF, EIGRP y RIP en los routers de la topología.
+
+### Configuración de OSPF
+```bash
+router ospf 1
+ network 10.0.13.0 0.0.0.255 area 0
+ network 192.168.13.0 0.0.0.255 area 0
+```
+
+### Configuración de RIP
+```bash
+router rip
+ version 2
+ network 10.0.23.0
+ network 192.168.23.0
+ no auto-summary
+```
+
+### Configuración de EIGRP
+```bash
+router eigrp 100
+ network 10.0.33.0 0.0.0.255
+ network 192.168.33.0 0.0.0.255
+ no auto-summary
+```
+
+### Verificación de la Configuración
+Para verificar que los protocolos están funcionando correctamente, se pueden usar los siguientes comandos:
+
+```bash
+show ip route             # Muestra la tabla de enrutamiento
+show ip ospf neighbor     # Verifica vecinos OSPF
+show ip rip database      # Verifica la base de datos de RIP
+show ip eigrp neighbors   # Verifica vecinos EIGRP
+show running-config       # Muestra la configuración actual
+```
+
+---
 
 # Elección de Escenario con Mejor Resultado de Convergencia
 
