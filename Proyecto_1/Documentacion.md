@@ -112,3 +112,89 @@ exit
 show spanning-tree
 ```
 
+## Configuracion OSPF
+
+```bash
+enable
+conf t
+ip routing
+router ospf 1
+ no network 192.168.39.0 0.0.0.255 area 0
+ no network 192.168.39.0 0.0.0.31 area 0
+ no network 192.168.39.32 0.0.0.31 area 0
+ no network 10.0.39.0 0.0.0.255 area 0
+ network 192.168.39.0 0.0.0.255 area 0
+exit
+
+interface vlan 40
+ ip address 192.168.39.1 255.255.255.224
+ ip ospf 1 area 0
+interface vlan 41
+ ip address 192.168.39.33 255.255.255.224
+ ip ospf 1 area 0
+interface vlan 42
+ ip address 192.168.39.65 255.255.255.224
+ ip ospf 1 area 0
+interface vlan 43
+ ip address 192.168.39.97 255.255.255.224
+ ip ospf 1 area 0
+interface vlan 44
+ ip address 192.168.39.129 255.255.255.224
+ ip ospf 1 area 0
+
+interface port-channel1
+ switchport trunk allowed vlan 40-44
+interface fa0/4
+ switchport trunk allowed vlan 40-44
+exit
+
+```
+
+## LACP
+
+```bash
+int range fa 0/1-3
+channel-protocol lacp
+channel-group 4 mode active
+no shut
+```
+
+
+## Configuracion EIGRP
+
+```bash
+enable
+conf t
+no ip domain-lookup
+hostname SW8_G15
+ip routing
+int gi 1/0/1
+no switchport
+ip add 10.0.39.1 255.255.255.252
+no shut
+exit
+int gi 1/0/2
+no switchport
+ip add 10.0.39.5 255.255.255.252
+no shut
+exit
+int gi 1/1/1
+no switchport
+ip add 10.0.39.9 255.255.255.252
+no shut
+exit
+int gi 1/1/2
+no switchport
+ip add 10.0.39.13 255.255.255.252
+no shut
+exit
+router eigrp 39
+no auto-summary
+network 10.0.39.0 0.0.0.3
+network 10.0.39.4 0.0.0.3
+network 10.0.39.8 0.0.0.3
+network 10.0.39.12 0.0.0.3
+no auto-summary
+exit
+do wr
+```
