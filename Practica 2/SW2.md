@@ -30,7 +30,7 @@ interface Vlan1
 
 router eigrp 1
  network 10.0.39.0 0.0.0.3
- network 192.168.39.80
+ network 192.168.39.80 0.0.0.192
  no auto-summary
 
 end

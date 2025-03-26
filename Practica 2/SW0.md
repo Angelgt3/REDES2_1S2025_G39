@@ -33,7 +33,7 @@ switchport trunk encapsulation dot1q
  channel-group 2 mode active
  no shutdown
 
-! Configurar SVIs (sin cambios)
+! Configurar SVIs
 interface Vlan33
  ip address 192.168.100.1 255.255.255.128
  no shutdown
@@ -42,7 +42,7 @@ interface Vlan43
  ip address 192.168.100.129 255.255.255.128
  no shutdown
 
-! Configuración EIGRP (actualizada para Port-channel2)
+! Configuración EIGRP
 router eigrp 1
  network 10.0.39.4 0.0.0.3    
  network 192.168.100.0 0.0.0.127
