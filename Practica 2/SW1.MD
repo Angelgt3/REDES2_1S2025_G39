@@ -50,6 +50,20 @@ switchport trunk encapsulation dot1q
  channel-group 3 mode active  
 !
 
+interface FastEthernet0/13
+ no switchport
+ ip address 10.0.39.21 255.255.255.252
+ duplex auto
+ speed auto
+!
+
+interface FastEthernet0/14
+ no switchport
+ ip address 10.0.39.17 255.255.255.252
+ duplex auto
+ speed auto
+!
+
 interface Vlan1
  no ip address
  shutdown
@@ -59,6 +73,8 @@ router eigrp 1
  network 10.0.39.0 0.0.0.3  
  network 10.0.39.4 0.0.0.3  
  network 10.0.39.8 0.0.0.3
+ network 10.0.39.16 0.0.0.3
+ network 10.0.39.20 0.0.0.3
  no auto-summary
 !
 
