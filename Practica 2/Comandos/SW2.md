@@ -25,8 +25,12 @@ interface FastEthernet0/5
  duplex auto
  speed auto
 
-interface Vlan1
- no ip address
+
+
+interface Vlan33
+ ip address 192.168.23.130 255.255.255.128
+ no shutdown
+!
 
 router eigrp 1
  network 10.0.39.0 0.0.0.3

@@ -1,0 +1,59 @@
+enable
+configure terminal
+hostname 2R2
+ip routing
+
+! VLAN para Atención al Cliente
+vlan 43
+ name VENTAS
+exit
+
+vlan 44
+ name VENTAS_2
+exit
+
+! Interfaz hacia 2R1
+interface Port-channel3
+ no switchport
+ ip address 172.39.0.26 255.255.255.252
+ no shutdown
+exit
+interface range FastEthernet0/1-3
+ no switchport
+ no ip address
+ channel-group 3 mode active
+ no shutdown
+exit
+
+
+ service dhcp
+! Interfaz SVI para VLAN 43
+interface Vlan43
+ ip address 192.168.23.1 255.255.255.192
+ ip helper-address 192.168.13.194
+ no shutdown
+exit
+
+! Wifi 1
+interface FastEthernet0/24
+ no switchport
+ ip address 192.168.24.1 255.255.255.192
+ ip helper-address 192.168.13.194
+ no shutdown
+!
+
+! Wifi 2
+interface FastEthernet0/23
+ no switchport
+ ip address 192.168.23.65 255.255.255.192
+ ip helper-address 192.168.13.194
+ no shutdown
+!
+
+! EIGRP
+router eigrp 100
+ no auto-summary
+ network 172.39.0.24 0.0.0.3
+ network 192.168.23.0 0.0.0.63
+ network 192.168.23.64 0.0.0.63
+exit

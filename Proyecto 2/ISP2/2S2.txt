@@ -1,0 +1,28 @@
+enable
+configure terminal
+hostname 2S2
+
+! VLAN 
+vlan 33
+ name FACTURACION
+exit
+
+! Puerto hacia 2R3
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan all
+ no shutdown
+exit
+
+! hacia Dispositivos
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 33
+ no shutdown
+exit
+
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 33
+ no shutdown
+exit

@@ -14,7 +14,12 @@
 - **ISP2**: Redes Nacionales (AS 65002)
 - **ISP3**: Link Global (AS 65003)
 
-
+ISP1 -> ISP2
+ISP1 -> ISP3
+ISP2 -> ISP1
+ISP2 -> ISP3
+ISP3 -> ISP1
+ISP3 -> ISP2
 
 ### **ISP 1: Telecom Uno - Subneteo y VLANs**
 
@@ -41,7 +46,7 @@
 
 
 
-MSW100 -> R0
+ISP1 -> R0
 R0 -> R1 -> S1 -> PC1 (DE R0 A R1 hay lacp)
 R0 -> R2 -> S2 -> PC2
 R0 -> R3 -> S3 -> PC3
@@ -70,7 +75,7 @@ network 172.39.0.20 0.0.0.3
 network 172.39.0.24 0.0.0.3
 
 
-MSW200 -> 2R1
+ISP2 -> 2R1
 2R1 -> 2R2 (LACP)
 2R2 -> Wireless1 -> Dispositivos finales
 2R2 -> Wireless2 -> Dispositivos finales

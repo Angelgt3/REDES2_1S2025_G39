@@ -29,7 +29,7 @@ exit
 
 ! Configuración BGP
 router bgp 65001
- bgp router-id 172.39.0.33
+     bgp router-id 172.39.0.33
  ! ISP2
  neighbor 172.39.0.34 remote-as 65002  
  ! ISP3

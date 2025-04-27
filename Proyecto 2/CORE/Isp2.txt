@@ -19,13 +19,35 @@ interface GigabitEthernet1/1/2
  no shutdown
  exit
 
+! conexión a 2R1
+interface GigabitEthernet1/0/1
+ no switchport
+ ip address 172.39.0.53 255.255.255.252
+ description Enlace a 2R1-Nucleo
+ no shutdown
+exit
+
 ! Configuración BGP básica
 router bgp 65002
  bgp router-id 172.39.0.34
  ! ISP1
  neighbor 172.39.0.33 remote-as 65001  
  ! ISP3
- neighbor 172.39.0.42 remote-as 65003  
+ neighbor 172.39.0.42 remote-as 65003
+ ! 2R1
+ neighbor 172.39.0.54 remote-as 65002
  network 172.39.0.32 mask 255.255.255.252
  network 172.39.0.40 mask 255.255.255.252
+ network 172.39.0.52 mask 255.255.255.252
+ redistribute eigrp 100
  exit
+
+
+! Configuración EIGRP para conexión interna
+router eigrp 100
+ network 172.39.0.52 0.0.0.3
+ passive-interface default
+ no passive-interface GigabitEthernet1/0/1
+ redistribute bgp 65002 metric 10000 100 255 1 1500
+ no auto-summary
+exit
