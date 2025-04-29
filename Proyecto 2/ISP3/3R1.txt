@@ -1,0 +1,52 @@
+enable
+configure terminal
+hostname 3R1
+ip routing
+
+! Interfaz hacia 3R2
+interface GigabitEthernet0/0
+ ip address 172.39.0.78 255.255.255.252
+ description Enlace a 3R2
+ no shutdown
+exit
+
+! Configuración de subinterfaces
+interface GigabitEthernet0/1
+ no ip address
+ description Trunk hacia servidores
+ no shutdown
+exit
+
+! Subinterfaz VLAN 83 (HTTP)
+interface GigabitEthernet0/1.83
+ encapsulation dot1Q 83
+ description VLAN HTTP_SERVER
+ ip address 192.168.33.195 255.255.255.240
+ standby 1 ip 192.168.33.193
+ standby 1 priority 100
+ standby 1 preempt
+ ip helper-address 192.168.13.194
+ no shutdown
+exit
+
+! Subinterfaz VLAN 93 (DNS)
+interface GigabitEthernet0/1.93
+ encapsulation dot1Q 93
+ description VLAN DNS_SERVER
+ ip address 192.168.33.211 255.255.255.240
+ standby 2 ip 192.168.33.209
+ standby 2 priority 100
+ standby 2 preempt
+ ip helper-address 192.168.13.194
+ no shutdown
+exit
+
+! Configuración OSPF
+router ospf 1
+ network 172.39.0.76 0.0.0.3 area 0
+ network 192.168.33.192 0.0.0.15 area 0
+ network 192.168.33.208 0.0.0.15 area 0
+exit
+
+end
+

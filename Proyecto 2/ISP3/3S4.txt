@@ -1,0 +1,28 @@
+enable
+configure terminal
+hostname 3S4
+
+! VLAN 
+vlan 53
+ name SOPORTE
+exit
+
+! Puerto hacia 3R4
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan all
+ no shutdown
+exit
+
+! hacia Dispositivos
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 53
+ no shutdown
+exit
+
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 53
+ no shutdown
+exit

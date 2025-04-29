@@ -1,0 +1,28 @@
+enable
+configure terminal
+hostname 3S3
+
+! VLAN 
+vlan 63
+ name SEGURIDAD
+exit
+
+! Puerto hacia 3R3
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan all
+ no shutdown
+exit
+
+! hacia Dispositivos
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 63
+ no shutdown
+exit
+
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 63
+ no shutdown
+exit

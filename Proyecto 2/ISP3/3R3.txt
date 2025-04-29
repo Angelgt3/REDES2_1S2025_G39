@@ -1,0 +1,44 @@
+enable
+configure terminal
+hostname 3R3
+ip routing
+
+! LACP hacia 3R2
+interface Port-channel6
+  no switchport
+  ip address 172.39.0.82 255.255.255.252
+  no shutdown
+exit
+interface range FastEthernet0/1-3
+  no switchport
+  no ip address
+  channel-group 6 mode active
+  no shutdown
+exit
+
+! VLAN 63
+vlan 63
+ name SEGURIDAD
+exit
+
+! SVI para VLAN 63
+interface Vlan63
+  ip address 192.168.33.129 255.255.255.192
+  ip helper-address 192.168.13.194
+  no shutdown
+exit
+
+! Trunk hacia Switch 3S3
+interface FastEthernet0/24
+  switchport trunk encapsulation dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 63
+  no shutdown
+exit
+
+! OSPF
+router ospf 1
+  network 172.39.0.80 0.0.0.3 area 0
+  network 192.168.33.128 0.0.0.63 area 0
+  passive-interface Vlan63
+exit

@@ -1,0 +1,32 @@
+enable
+configure terminal
+hostname 3S5
+
+! VLAN 
+vlan 83
+ name HTTP_SERVER
+exit
+vlan 93
+ name DNS_SERVER
+exit
+
+! Puerto hacia 3R5
+interface FastEthernet0/24
+ switchport mode trunk
+ switchport trunk allowed vlan all
+ no shutdown
+exit
+
+! hacia servidor HTTP
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 83
+ no shutdown
+exit
+
+! hacia servidor DNS
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 93
+ no shutdown
+exit

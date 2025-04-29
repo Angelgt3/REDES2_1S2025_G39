@@ -82,3 +82,42 @@ ISP2 -> 2R1
 2R1 -> 2R3 (LACP)
 2R3 -> 2S1 -> Dispositivos finales
 2R3 -> 2S2 -> Dispositivos finales
+
+
+# ISP 3: Conexiones Futuras - Subneteo Simplificado
+
+### Tabla de Subredes
+
+| Departamento | Subred            | Máscara           | Rango Utilizable         | Gateway        | VLAN ID | Hosts  |
+|--------------|-------------------|-------------------|--------------------------|----------------|---------|--------|
+| SOPORTE      | 192.168.33.0/25   | 255.255.255.128   | 192.168.33.1 - 126       | 192.168.33.1   | 53      | 126    |
+| SEGURIDAD    | 192.168.33.128/26 | 255.255.255.192   | 192.168.33.129 - 190     | 192.168.33.129 | 63      | 62     |
+| HTTP_SERVER  | 192.168.33.192/28 | 255.255.255.240   | 192.168.33.193 - 206     | 192.168.33.193 | 83      | 14     |
+| DNS_SERVER   | 192.168.33.208/28 | 255.255.255.240   | 192.168.33.209 - 222     | 192.168.33.209 | 93      | 14     |
+
+---
+
+### Configuración Básica en Packet Tracer
+
+#### **Asignación de VLANs**
+
+| VLAN ID | Nombre         |
+|---------|----------------|
+| 53      | SOPORTE        |
+| 63      | SEGURIDAD      |
+| 83      | HTTP_SERVER    |
+| 93      | DNS_SERVER     |
+
+
+#isp 3
+
+ISP3(sw de capa 3 del core ) -> 3R2
+3R2 -> 3R0  (HSRP)
+3R2 -> 3R1  (HSRP)
+3R1 -> 3S5 -> Servidores htpp y dns
+3R2 -> 3S5 -> Servidores htpp y dns
+3R2 -> 3R4 (LACP)
+3R2 -> 3R5 (LACP)
+3R3 -> 3S3 -> Dispositivos finales
+3R4 -> 3S4 -> Dispositivos finales
+

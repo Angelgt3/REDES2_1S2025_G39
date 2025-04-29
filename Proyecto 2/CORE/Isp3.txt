@@ -7,25 +7,38 @@ ip routing
 interface GigabitEthernet1/1/1
  no switchport
  ip address 172.39.0.38 255.255.255.252
- description Enlace a ISP1
  no shutdown
- exit
+exit
 
 ! Conexión a ISP2
 interface GigabitEthernet1/1/2
  no switchport
  ip address 172.39.0.42 255.255.255.252
- description Enlace a ISP2
  no shutdown
- exit
+exit
 
-! Configuración BGP básica
+! Conexión a 3R2
+interface GigabitEthernet1/0/1
+ no switchport
+ ip address 172.39.0.89 255.255.255.252
+ no shutdown
+exit
+
+! Configuración BGP
 router bgp 65003
  bgp router-id 172.39.0.38
- ! ISP1
- neighbor 172.39.0.37 remote-as 65001  
- ! ISP2
- neighbor 172.39.0.41 remote-as 65002  
+ neighbor 172.39.0.37 remote-as 65001
+ neighbor 172.39.0.41 remote-as 65002
+ neighbor 172.39.0.90 remote-as 65003
  network 172.39.0.36 mask 255.255.255.252
  network 172.39.0.40 mask 255.255.255.252
- exit
+ network 172.39.0.88 mask 255.255.255.252
+exit
+
+! Configuración OSPF (Simplificada)
+router ospf 1
+ network 172.39.0.88 0.0.0.3 area 0
+ default-information originate
+exit
+
+end

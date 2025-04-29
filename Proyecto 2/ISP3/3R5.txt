@@ -1,0 +1,49 @@
+enable
+configure terminal
+hostname 3R5
+ip routing
+
+! VLANs para Servidores
+vlan 83
+ name HTTP_SERVER
+exit
+vlan 93
+ name DNS_SERVER
+exit
+
+! Enlace hacia 3R2
+interface FastEthernet0/1
+ no switchport
+ ip address 172.39.0.90 255.255.255.252
+ no shutdown
+exit
+
+! Interfaces SVI para Servidores
+interface Vlan83
+ ip address 192.168.33.193 255.255.255.240
+ ip helper-address 192.168.13.194
+ no shutdown
+exit
+
+interface Vlan93
+ ip address 192.168.33.209 255.255.255.240
+ ip helper-address 192.168.13.194
+ no shutdown
+exit
+
+! hacia Switch 3S5
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 83,93
+ no shutdown
+exit
+
+! OSPF (Anuncia solo enlace y redes locales)
+router ospf 1
+ network 172.39.0.88 0.0.0.3 area 0
+ network 192.168.33.192 0.0.0.15 area 0
+ network 192.168.33.208 0.0.0.15 area 0
+ passive-interface Vlan83
+ passive-interface Vlan93
+exit
